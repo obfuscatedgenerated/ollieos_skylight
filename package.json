@@ -1,0 +1,32 @@
+{
+  "name": "ollieos_skylight",
+  "version": "1.0.0",
+  "description": "An example package using React within OllieOS windows.",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "watch": "webpack --watch --mode=development",
+    "dev": "concurrently \"npm:watch\" \"npx ollieos-pkg-serve\""
+  },
+  "author": "obfuscatedgenerated",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "concurrently": "^9.2.1",
+    "ollieos": "github:obfuscatedgenerated/obfuscatedgenerated.github.io#types",
+    "ollieos_pkgbuild": "github:obfuscatedgenerated/ollieos_pkgbuild",
+    "postcss": "^8.5.14",
+    "postcss-loader": "^8.2.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obfuscatedgenerated/ollieos_test_pkg.git"
+  },
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.3.0"
+  }
+}
