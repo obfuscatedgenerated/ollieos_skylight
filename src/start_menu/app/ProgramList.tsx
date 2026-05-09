@@ -5,7 +5,7 @@ export const ProgramList = ({main_data}: {main_data: ProgramMainData}) => {
     const {kernel, shell, process} = main_data;
     const prog_reg = useMemo(() => kernel.get_program_registry(), [kernel]);
 
-    const programs = useMemo(() => prog_reg.listProgramNames().filter((name) => !prog_reg.getProgram(name).hide_from_help), [prog_reg]);
+    const programs = useMemo(() => prog_reg.listProgramNames(true, true).filter((name) => !prog_reg.getProgram(name).hide_from_help).sort(), [prog_reg]);
     const program_clicked = useCallback((prog_name: string) => {
         shell.execute(prog_name);
         process.kill(0);
