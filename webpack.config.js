@@ -9,6 +9,7 @@ const pkgbuild = require("ollieos_pkgbuild");
 const programs = {
     "sl_taskbar": "./src/taskbar/index.ts",
     "sl_startmenu": "./src/start_menu/index.ts",
+    "sl_settings": "./src/settings/index.ts"
 };
 
 // EDIT THIS ARRAY TO ADD DEPENDENCIES FOR THE VERSION CURRENTLY BEING BUILT

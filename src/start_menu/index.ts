@@ -34,6 +34,8 @@ export default {
             wind.close();
         });
 
+        // TODO: kill when clicking outside window
+
         process.detach();
         return 0;
     }
