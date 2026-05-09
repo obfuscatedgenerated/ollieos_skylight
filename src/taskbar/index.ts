@@ -25,6 +25,8 @@ export default {
         wind.height = "5vh";
         wind.width = "100vw";
 
+        // TODO: rem based height to match tailwind
+
         render(wind.dom, wind.height, data);
         wind.show();
 
