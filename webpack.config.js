@@ -7,7 +7,8 @@ const pkgbuild = require("ollieos_pkgbuild");
 // key: the name of the program
 // value: the path to the entry point
 const programs = {
-    "taskbar": "./src/taskbar/index.ts"
+    "sl_taskbar": "./src/taskbar/index.ts",
+    "sl_startmenu": "./src/start_menu/index.ts",
 };
 
 // EDIT THIS ARRAY TO ADD DEPENDENCIES FOR THE VERSION CURRENTLY BEING BUILT
@@ -34,7 +35,10 @@ config.resolve = {
 config.module.rules.push({
     test: /\.css$/i,
     use: [
-        "style-loader",
+        {loader: "style-loader", options: {
+            injectType: "lazyStyleTag",
+            insert: require.resolve("./style_insert.js")
+        }},
         "css-loader",
         {
             loader: "postcss-loader",

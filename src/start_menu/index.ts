@@ -1,11 +1,10 @@
 import type { Program } from "ollieos/types";
 
-import { render } from "./app";
-import {teardown} from "../start_menu/app";
+import {render, teardown} from "./app";
 
 export default {
-    name: "sl_taskbar",
-    description: "Skylight Taskbar",
+    name: "sl_startmenu",
+    description: "Skylight Start Menu",
     usage_suffix: "",
     arg_descriptions: {},
     compat: "2.0.0",
@@ -15,15 +14,15 @@ export default {
 
         const wind = process.create_window();
 
-        wind.title = "Taskbar";
+        wind.title = "Start Menu";
 
         wind.set_custom_flag("no-top-bar", true);
 
         wind.x = "0vw";
-        wind.y = "95vh";
+        wind.y = "55vh";
 
-        wind.height = "5vh";
-        wind.width = "100vw";
+        wind.height = "40vh";
+        wind.width = "20vw";
 
         render(wind.dom, wind.height, data);
         wind.show();
