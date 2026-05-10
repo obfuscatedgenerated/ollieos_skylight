@@ -12,7 +12,10 @@ export default {
         const { kernel, process } = data;
 
         // invoke sl_taskbar with privilege
-        kernel.spawn("sl_taskbar", [], undefined, true);
+        const spawn_result = kernel.spawn("sl_taskbar", [], undefined, true);
+        process.add_exit_listener(() => {
+            spawn_result.process.kill();
+        });
 
         process.detach();
         return 0;
