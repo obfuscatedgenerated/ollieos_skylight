@@ -17,9 +17,9 @@ export const ProgramList = ({main_data}: {main_data: ProgramMainData}) => {
     }
 
     return (
-        <div className="flex-1 flex flex-col gap-1 overflow-y-auto scrollbar-thin">
+        <div className="flex-1 flex flex-col gap-1 pr-2 overflow-y-auto nice-scroll">
             {programs.map((prog_name) => (
-                <div key={prog_name} className="px-2 py-1 rounded hover:bg-accent cursor-pointer" onClick={() => program_clicked(prog_name)}>
+                <div key={prog_name} className="px-2 py-1 rounded transition-colors hover:bg-accent cursor-pointer" onClick={() => program_clicked(prog_name)}>
                     {prog_name}
                 </div>
             ))}

@@ -24,7 +24,7 @@ export const StartButton = ({main_data}: {main_data: ProgramMainData}) => {
     );
 
     return (
-        <button className="cursor-pointer px-3 py-1 aspect-square hover:bg-gray-700 flex items-center justify-center" onClick={on_click} title="Open start menu">
+        <button className="cursor-pointer px-3 py-1 aspect-square transition-colors hover:bg-accent flex items-center justify-center" onClick={on_click} title="Open start menu">
             <LayoutPanelLeft className="w-6 h-6" />
         </button>
     );
