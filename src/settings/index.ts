@@ -26,6 +26,10 @@ export default {
 
         wind.show();
 
+        wind.add_event_listener("close", () => {
+            process.kill(0);
+        });
+
         process.detach();
         return 0;
     }
