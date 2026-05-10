@@ -1,6 +1,6 @@
 import {PrivilegedProgramMainData} from "ollieos/types";
 import {Power, Settings} from "lucide-react";
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
 
 const SideOption = ({Icon, label, on_click}: {Icon: React.ComponentType<{className?: string}>, label: string, on_click: () => void}) => {
     return (
@@ -29,10 +29,26 @@ export const SideOptions = ({main_data}: {main_data: PrivilegedProgramMainData})
         [kernel, process]
     );
 
+    const [power_options_visible, setPowerOptionsVisible] = useState(false);
+
     return (
-        <div className="flex flex-col justify-end gap-2">
+        <div className="flex flex-col justify-end gap-2 relative">
             <SideOption Icon={Settings} label="Settings" on_click={() => exec_and_kill("sl_settings")} />
-            <SideOption Icon={Power} label="Shut down" on_click={() => exec_and_kill("shutdown")} />
+            <SideOption Icon={Power} label="Shut down" on_click={() => setPowerOptionsVisible(true)} />
+
+            {power_options_visible && (
+                <div className="absolute bottom-10 left-0 bg-background-2 text-foreground rounded shadow-lg flex flex-col gap-1 p-2 w-40">
+                    <button className="cursor-pointer px-2 py-1 rounded transition-colors hover:bg-accent" onClick={() => exec_and_kill("shutdown")}>
+                        Shut down
+                    </button>
+                    <button className="cursor-pointer px-2 py-1 rounded transition-colors hover:bg-accent" onClick={() => exec_and_kill("shutdown -r")}>
+                        Restart
+                    </button>
+                    <button className="cursor-pointer px-2 py-1 rounded transition-colors hover:bg-accent" onClick={() => setPowerOptionsVisible(false)}>
+                        Cancel
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

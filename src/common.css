@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
-main {
+:host {
     --background: #eeeeee;
+    --background-2: #dddddd;
     --foreground: #000000;
     --primary: #007acc;
 
@@ -12,8 +13,9 @@ main {
 }
 
 @media (prefers-color-scheme: dark) {
-    main {
+    :host {
         --background: #1e1e1e;
+        --background-2: #252526;
         --foreground: #ffffff;
         --primary: #007acc;
 
@@ -24,6 +26,7 @@ main {
 
 @theme inline {
     --color-background: var(--background);
+    --color-background-2: var(--background-2);
     --color-foreground: var(--foreground);
     --color-primary: var(--primary);
 
