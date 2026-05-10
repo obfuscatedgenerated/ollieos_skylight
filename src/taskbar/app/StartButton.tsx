@@ -1,11 +1,11 @@
-import type {ProgramMainData} from "ollieos/types";
+import type {PrivilegedProgramMainData} from "ollieos/types";
 import type {SpawnResult} from "ollieos/kernel";
 
 import {useCallback, useMemo, useRef} from "react";
 import {LayoutPanelLeft} from "lucide-react";
 
-export const StartButton = ({main_data}: {main_data: ProgramMainData}) => {
-    const {kernel, shell} = main_data;
+export const StartButton = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
+    const {kernel} = main_data;
 
     const proc_mgr = useMemo(() => kernel.get_process_manager(), [kernel]);
     const start_menu_process = useRef<SpawnResult | null>(null);
@@ -17,7 +17,8 @@ export const StartButton = ({main_data}: {main_data: ProgramMainData}) => {
                 start_menu_process.current.process.kill(0);
                 start_menu_process.current = null;
             } else {
-                start_menu_process.current = kernel.spawn("sl_startmenu", [], shell);
+                // invoke sl_startmenu with privilege
+                start_menu_process.current = kernel.spawn("sl_startmenu", [], undefined, true);
             }
         },
         [kernel]

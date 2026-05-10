@@ -1,4 +1,4 @@
-import type { Program } from "ollieos/types";
+import type {PrivilegedProgram} from "ollieos/types";
 
 import {render, teardown} from "./app";
 
@@ -7,6 +7,7 @@ export default {
     description: "Skylight Start Menu",
     usage_suffix: "",
     arg_descriptions: {},
+    hide_from_help: true,
     compat: "2.0.0",
     main: async (data) => {
         // extract from data to make code less verbose
@@ -39,4 +40,4 @@ export default {
         process.detach();
         return 0;
     }
-} as Program;
+} as PrivilegedProgram;

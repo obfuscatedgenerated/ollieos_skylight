@@ -1,9 +1,9 @@
 import {useEffect, useMemo, useState} from "react";
 import {Globe, Plug} from "lucide-react";
 
-import type {ProgramMainData} from "ollieos/types";
+import type {PrivilegedProgramMainData} from "ollieos/types";
 
-export const NetworkTrayIcon = ({main_data}: {main_data: ProgramMainData}) => {
+export const NetworkTrayIcon = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
     const [connected, setConnected] = useState(false);
 
     const {process, kernel} = main_data;

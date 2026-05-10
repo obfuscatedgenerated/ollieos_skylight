@@ -1,8 +1,8 @@
-import type {ProgramGUIProps, ProgramMainData} from "ollieos/types";
+import type {ProgramGUIProps, PrivilegedProgramMainData} from "ollieos/types";
 import {useCallback, useMemo} from "react";
 
-export const ProgramList = ({main_data}: {main_data: ProgramMainData}) => {
-    const {kernel, shell, process} = main_data;
+export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
+    const {kernel, process} = main_data;
     const prog_reg = useMemo(() => kernel.get_program_registry(), [kernel]);
 
     const programs = useMemo(() =>
@@ -21,24 +21,33 @@ export const ProgramList = ({main_data}: {main_data: ProgramMainData}) => {
     );
 
     const program_clicked = useCallback((prog_name: string, gui: ProgramGUIProps) => {
-        let shell_line = prog_name;
+        let command = prog_name;
+        let args = [];
         if (gui.start_with_args) {
-            shell_line += " " + gui.start_with_args.join(" ");
+            args = gui.start_with_args;
         }
 
         if (gui.starts_in_terminal_window) {
-            // TODO: need privilege to start windowed terminal, either give taskbar program privilege and assign privlege ourself (risky) or use custom privilege agent that knows if called like this somehow?
-            shell_line = `windowed_terminal ${shell_line}`;
+            // TODO: use custom privilege agent that knows if called like this somehow? then dont need to share privilege to this program
+            command = "windowed_terminal";
+
+            // TODO: is this secure? can it lead to privilege escalation if not parsed right, if the program gui props give risky args?
+            args = [prog_name, ...(gui.start_with_args ?? [])];
         }
 
-        shell.execute(shell_line);
-        process.kill(0);
-        // TODO: should this use a base gui shell provided by skylight instead?
-    }, [prog_reg]);
+        // start privileged if windowed terminal always (therefore also covers starting terminal normally from program list)
+        const spawn_result = kernel.spawn(command, args, undefined, command === "windowed_terminal");
+        spawn_result.completion.then((code) => {
+            if (spawn_result.process.is_detached) {
+                return;
+            }
 
-    if (!shell) {
-        return <div className="flex-1 flex items-center justify-center text-sm italic text-muted-foreground">No shell available!</div>;
-    }
+           spawn_result.process.kill(code);
+        });
+
+        process.kill(0);
+        // TODO: should this use a base gui shell provided by skylight instead? might be able to securely tell it to use privilege when opening here instead of passing privilege to the start menu itself
+    }, [prog_reg]);
 
     return (
         <div className="flex-1 flex flex-col gap-1 pr-2 overflow-y-auto nice-scroll">

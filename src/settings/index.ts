@@ -1,12 +1,13 @@
 import type { Program } from "ollieos/types";
 
-
-
 export default {
     name: "sl_settings",
     description: "Skylight Settings",
     usage_suffix: "",
     arg_descriptions: {},
+    gui: {
+        display_name: "Settings"
+    },
     compat: "2.0.0",
     main: async (data) => {
         // extract from data to make code less verbose
