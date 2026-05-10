@@ -56,6 +56,7 @@ config.module.rules.push({
                 postcssOptions: {
                     plugins: [
                         [
+                            "@tailwindcss/postcss",
                             "postcss-preset-env",
                         ],
                     ],
