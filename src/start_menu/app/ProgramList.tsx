@@ -6,7 +6,7 @@ export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData})
     const prog_reg = useMemo(() => kernel.get_program_registry(), [kernel]);
 
     const programs = useMemo(() =>
-        prog_reg.listProgramNames()
+        prog_reg.listProgramNames(true, true)
             .map((prog_name) => {
                 const gui = prog_reg.getProgram(prog_name)?.gui;
                 if (!gui) {

@@ -1,6 +1,6 @@
 {
   "name": "skylight",
-  "version": "0.1.1-alpha",
+  "version": "0.1.2-alpha",
   "description": "An example package using React within OllieOS windows.",
   "scripts": {
     "build": "webpack --mode=production",
