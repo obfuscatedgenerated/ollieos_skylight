@@ -28,6 +28,7 @@ export default {
         // TODO: rem based height to match tailwind
 
         render(wind.dom, wind.height, data);
+        wind.request_layer("overlay");
         wind.show();
 
         process.add_exit_listener(() => {
