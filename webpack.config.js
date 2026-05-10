@@ -28,7 +28,7 @@ const externals = {};
 
 // EDIT THIS ARRAY TO DEFINE ADDITIONAL FILES TO BE INCLUDED IN THE PACKAGE
 const additional_files = [
-    {local_path: "./src/root/service.json", pkg_path: "skylight.service.json"}
+    {local_path: "./src/root/service.json", pkg_path: "privileged/skylight.service.json"}
 ];
 
 // EDIT THIS OBJECT TO DEFINE TRIGGERS TO RUN ON INSTALL/REMOVAL
