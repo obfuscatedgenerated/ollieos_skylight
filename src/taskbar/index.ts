@@ -1,7 +1,6 @@
 import type {PrivilegedProgram, Program} from "ollieos/types";
 
 import { render } from "./app";
-import {teardown} from "../start_menu/app";
 
 export default {
     name: "sl_taskbar",
@@ -33,7 +32,6 @@ export default {
         wind.show();
 
         process.add_exit_listener(() => {
-            teardown(wind.dom);
             wind.close();
         });
 

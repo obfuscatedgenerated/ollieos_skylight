@@ -1,6 +1,6 @@
 import type {PrivilegedProgram} from "ollieos/types";
 
-import {render, teardown} from "./app";
+import {render} from "./app";
 
 export default {
     name: "sl_startmenu",
@@ -32,7 +32,6 @@ export default {
         wind.show();
 
         process.add_exit_listener(() => {
-            teardown(wind.dom);
             wind.close();
         });
 

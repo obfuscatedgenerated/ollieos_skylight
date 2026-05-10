@@ -49,11 +49,7 @@ config.resolve = {
 config.module.rules.push({
     test: /\.css$/i,
     use: [
-        {loader: "style-loader", options: {
-            injectType: "lazyStyleTag",
-            insert: require.resolve("./style_insert.js")
-        }},
-        "css-loader",
+        {loader: "css-loader", options: {exportType: "string"}},
         {
             loader: "postcss-loader",
             options: {

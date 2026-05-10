@@ -12,13 +12,8 @@ export const render = (dom: ShadowRoot, css_height: string, main_data: Privilege
 
     createRoot(react_root).render(
         <React.StrictMode>
+            <style>{styles}</style>
             <App main_data={main_data} css_height={css_height} />
         </React.StrictMode>
     );
-
-    styles.use({target: dom});
-}
-
-export const teardown = (dom: ShadowRoot) => {
-    styles.unuse({target: dom});
 }
