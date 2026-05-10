@@ -2,6 +2,7 @@
   "name": "Skylight",
   "dependencies": [],
   "exec": "sl_root",
+  "auto_start": true,
   "oneshot": false,
   "restart": {
     "on": "failure",
