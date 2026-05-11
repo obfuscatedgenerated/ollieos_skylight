@@ -24,11 +24,15 @@ export default {
             kernel = userspace_kernel as unknown as Kernel;
         }
 
-        // invoke sl_taskbar with privilege
-        const spawn_result = kernel.spawn("sl_taskbar", [], undefined, true);
-        process.add_exit_listener(() => {
-            spawn_result.process.kill();
-        });
+        // invoke children with privilege
+        // TODO: should they all have it
+        const children = ["sl_desktop", "sl_taskbar"];
+        for (const child of children) {
+            const spawn_result = kernel.spawn(child, [], undefined, true);
+            process.add_exit_listener(() => {
+                spawn_result.process.kill();
+            });
+        }
 
         process.detach();
         return 0;

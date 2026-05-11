@@ -10,7 +10,8 @@ const programs = {
     "sl_root": "./src/root/index.ts",
     "sl_taskbar": "./src/taskbar/index.ts",
     "sl_startmenu": "./src/start_menu/index.ts",
-    "sl_settings": "./src/settings/index.ts"
+    "sl_settings": "./src/settings/index.ts",
+    "sl_desktop": "./src/desktop/index.ts",
 };
 
 // EDIT THIS ARRAY TO ADD DEPENDENCIES FOR THE VERSION CURRENTLY BEING BUILT
