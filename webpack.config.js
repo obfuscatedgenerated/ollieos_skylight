@@ -12,6 +12,7 @@ const programs = {
     "sl_startmenu": "./src/start_menu/index.ts",
     "sl_settings": "./src/settings/index.ts",
     "sl_desktop": "./src/desktop/index.ts",
+    "sl_shutdown": "./src/shutdown/index.ts",
 };
 
 // EDIT THIS ARRAY TO ADD DEPENDENCIES FOR THE VERSION CURRENTLY BEING BUILT
