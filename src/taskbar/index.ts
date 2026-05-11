@@ -18,6 +18,7 @@ export default {
         wind.title = "Taskbar";
 
         wind.set_custom_flag("no-top-bar", true);
+        wind.set_custom_flag("transparent", true);
 
         // matching tailwind spacing
         const height_rem = 0.25 * 11;
