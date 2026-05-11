@@ -1,4 +1,5 @@
 import type { Program } from "ollieos/types";
+import {render} from "./app";
 
 export default {
     name: "sl_settings",
@@ -22,8 +23,8 @@ export default {
         wind.width = "50vw";
 
         wind.title = "Settings";
-        wind.dom.innerHTML = "placeholder";
 
+        render(wind.dom, wind.height, data);
         wind.show();
 
         wind.add_event_listener("close", () => {
