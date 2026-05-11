@@ -19,13 +19,14 @@ export default {
 
         wind.set_custom_flag("no-top-bar", true);
 
+        // matching tailwind spacing
+        const height_rem = 0.25 * 11;
+
         wind.x = "0vw";
-        wind.y = "95vh";
+        wind.y = `calc(100vh - ${height_rem}rem)`;
 
-        wind.height = "5vh";
+        wind.height = `${height_rem}rem`;
         wind.width = "100vw";
-
-        // TODO: rem based height to match tailwind
 
         render(wind.dom, wind.height, data);
         wind.request_layer("overlay");

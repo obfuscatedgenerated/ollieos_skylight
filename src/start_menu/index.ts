@@ -19,13 +19,16 @@ export default {
 
         wind.set_custom_flag("no-top-bar", true);
 
+        // matching tailwind spacing
+        const height_rem = 0.25 * 100;
+        const width_rem = 0.25 * 80;
+        const taskbar_spacing_rem = 0.25 * 11;
+
         wind.x = "0vw";
-        wind.y = "55vh";
+        wind.y = `calc(100vh - ${height_rem + taskbar_spacing_rem}rem)`;
 
-        wind.height = "40vh";
-        wind.width = "20vw";
-
-        // TODO: rem based height to match tailwind
+        wind.height = `${height_rem}rem`;
+        wind.width = `${width_rem}rem`;
 
         render(wind.dom, wind.height, data);
         wind.request_layer("overlay");
