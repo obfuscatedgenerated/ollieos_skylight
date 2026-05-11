@@ -30,7 +30,7 @@ export default {
         wind.show();
 
         // pass args invisibly to shutdown cli in background
-        kernel.spawn("shutdown", args, undefined);
+        kernel.spawn(process, "shutdown", args, undefined);
 
         process.add_exit_listener(() => {
             wind.close();

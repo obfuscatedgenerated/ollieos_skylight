@@ -5,7 +5,7 @@ import {useCallback, useMemo, useRef} from "react";
 import {LayoutPanelLeft} from "lucide-react";
 
 export const StartButton = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
-    const {kernel} = main_data;
+    const {kernel, process} = main_data;
 
     const proc_mgr = useMemo(() => kernel.get_process_manager(), [kernel]);
     const start_menu_process = useRef<SpawnResult | null>(null);
@@ -18,10 +18,10 @@ export const StartButton = ({main_data}: {main_data: PrivilegedProgramMainData})
                 start_menu_process.current = null;
             } else {
                 // invoke sl_startmenu with privilege
-                start_menu_process.current = kernel.spawn("sl_startmenu", [], undefined, true);
+                start_menu_process.current = kernel.spawn(process, "sl_startmenu", [], undefined, true);
             }
         },
-        [kernel]
+        [kernel, process, proc_mgr]
     );
 
     return (

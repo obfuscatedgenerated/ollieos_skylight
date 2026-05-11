@@ -15,7 +15,7 @@ export const SideOptions = ({main_data}: {main_data: PrivilegedProgramMainData})
 
     const exec_and_kill = useCallback(
         async (prog_name: string, args: string[] = [], privileged = false) => {
-            const spawn_result = kernel.spawn(prog_name, args, undefined, privileged);
+            const spawn_result = kernel.spawn(process, prog_name, args, undefined, privileged);
             spawn_result.completion.then((code) => {
                 if (spawn_result.process.is_detached) {
                     return;

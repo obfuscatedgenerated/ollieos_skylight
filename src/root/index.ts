@@ -28,7 +28,7 @@ export default {
         // TODO: should they all have it
         const children = ["sl_desktop", "sl_taskbar"];
         for (const child of children) {
-            const spawn_result = kernel.spawn(child, [], undefined, true);
+            const spawn_result = kernel.spawn(process, child, [], undefined, true);
             process.add_exit_listener(() => {
                 spawn_result.process.kill();
             });

@@ -36,7 +36,7 @@ export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData})
         }
 
         // start privileged if windowed terminal always (therefore also covers starting terminal normally from program list)
-        const spawn_result = kernel.spawn(command, args, undefined, command === "windowed_terminal");
+        const spawn_result = kernel.spawn(process, command, args, undefined, command === "windowed_terminal");
         spawn_result.completion.then((code) => {
             if (spawn_result.process.is_detached) {
                 return;
