@@ -34,7 +34,7 @@ export const SideOptions = ({main_data}: {main_data: PrivilegedProgramMainData})
     return (
         <div className="flex flex-col justify-end gap-2 relative">
             <SideOption Icon={Settings} label="Settings" on_click={() => exec_and_kill("sl_settings")} />
-            <SideOption Icon={Power} label="Power options" on_click={() => setPowerOptionsVisible(true)} />
+            <SideOption Icon={Power} label="Power options" on_click={() => setPowerOptionsVisible(visible => !visible)} />
 
             {power_options_visible && (
                 <div className="absolute bottom-10 left-0 bg-background-2 text-foreground rounded shadow-lg flex flex-col gap-1 p-2 w-40">
