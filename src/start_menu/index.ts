@@ -13,6 +13,9 @@ export default {
         // extract from data to make code less verbose
         const { process } = data;
 
+        // spawn children in home directory
+        process.cwd = "~";
+
         const wind = process.create_window();
 
         wind.title = "Start Menu";
