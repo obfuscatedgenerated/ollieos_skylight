@@ -1,9 +1,12 @@
 import type {ProgramGUIProps, PrivilegedProgramMainData} from "ollieos/types";
-import {useCallback, useMemo} from "react";
+import {Suspense, useCallback, useMemo} from "react";
+import {DefaultProgramIcon, ProgramIcon} from "./ProgramIcon";
 
 export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
     const {kernel, process} = main_data;
+
     const prog_reg = useMemo(() => kernel.get_program_registry(), [kernel]);
+    const fs = useMemo(() => kernel.get_fs(), [kernel]);
 
     const programs = useMemo(() =>
         prog_reg.listProgramNames(true, true)
@@ -15,7 +18,7 @@ export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData})
 
                 return {prog_name, gui};
             })
-            .filter((x): x is {prog_name: string, gui: {display_name: string}} => x !== null)
+            .filter((x): x is {prog_name: string, gui: ProgramGUIProps} => x !== null)
             .sort((a, b) => a.gui.display_name.localeCompare(b.gui.display_name)),
         [prog_reg]
     );
@@ -52,8 +55,12 @@ export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData})
     return (
         <div className="flex-1 flex flex-col gap-1 pr-2 overflow-y-auto nice-scroll">
             {programs.map(({prog_name, gui}) => (
-                <div key={prog_name} className="px-2 py-1 rounded transition-colors hover:bg-accent cursor-pointer" onClick={() => program_clicked(prog_name, gui)}>
-                    {gui.display_name}
+                <div key={prog_name} className="flex gap-2 px-2 py-1 rounded transition-colors hover:bg-accent cursor-pointer" onClick={() => program_clicked(prog_name, gui)}>
+                    <Suspense fallback={<DefaultProgramIcon className="w-6 h-6" />}>
+                        <ProgramIcon fs={fs} icon_path={gui.icon_path} className="w-6 h-6" />
+                    </Suspense>
+
+                    <span>{gui.display_name}</span>
                 </div>
             ))}
         </div>
