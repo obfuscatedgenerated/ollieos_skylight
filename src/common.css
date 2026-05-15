@@ -4,10 +4,20 @@
     --background: #eeeeee;
     --background-2: #dddddd;
     --foreground: #000000;
+
     --primary: #007acc;
+    --danger: #d04646;
+    --danger-surface: #f8d7da;
+
+    --muted: #777777;
 
     --accent: #cccccc;
+    --on-accent: #000000;
     --accent-2: #999999;
+    --on-accent-2: #ffffff;
+
+    --surface: #777777;
+    --on-surface: #ffffff;
 
     --sans: "Arial", sans-serif;
 }
@@ -17,10 +27,16 @@
         --background: #1e1e1e;
         --background-2: #252526;
         --foreground: #ffffff;
-        --primary: #007acc;
+
+        --muted: #aaaaaa;
 
         --accent: #575757;
+        --on-accent: #ffffff;
         --accent-2: #999999;
+        --on-accent-2: #000000;
+
+        --surface: #cccccc;
+        --on-surface: #000000;
     }
 }
 
@@ -28,10 +44,20 @@
     --color-background: var(--background);
     --color-background-2: var(--background-2);
     --color-foreground: var(--foreground);
+
     --color-primary: var(--primary);
+    --color-danger: var(--danger);
+    --color-danger-surface: var(--danger-surface);
+
+    --color-muted: var(--muted);
 
     --color-accent: var(--accent);
+    --color-on-accent: var(--on-accent);
     --color-accent-2: var(--accent-2);
+    --color-on-accent-2: var(--on-accent-2);
+
+    --color-surface: var(--surface);
+    --color-on-surface: var(--on-surface);
 
     --font-sans: var(--sans);
 }

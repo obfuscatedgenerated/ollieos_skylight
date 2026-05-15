@@ -22,6 +22,7 @@ export const App = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
     // reload image on ipc signal
     useEffect(() => {
         const ipc = kernel.get_ipc();
+        // TODO: switch to lodestar
         ipc.service_register("sl_desktop", process.pid, async (channel_id) => {
             ipc.channel_listen(channel_id, process.pid, async (message) => {
                 if (message.data === "reload") {
