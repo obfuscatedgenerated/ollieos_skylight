@@ -1,5 +1,5 @@
 import type {ProgramMainData} from "ollieos/types";
-import {useCallback, useRef, useState} from "react";
+import {useCallback, useEffect, useEffectEvent, useRef, useState} from "react";
 
 type Operation = "+" | "-" | "*" | "/";
 
@@ -90,6 +90,7 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
     const [highlighted_operation, setHighlightedOperation] = useState<Operation | null>(null);
     const last_button_press = useRef<string | null>(null);
 
+    // TODO: enforce input precision limit
     const input_number = useCallback(
         (num: string) => {
             last_calculation_register.current = null;
@@ -197,6 +198,8 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
 
     const input_operation = useCallback(
         (op: Operation) => {
+            debugger;
+
             last_calculation_register.current = null;
 
             // if already storing an operand and operation, calculate the result first and use that as the new operand as well as displaying it
@@ -339,6 +342,71 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
         },
         [screen_value]
     );
+
+    // handle keyboard input
+    // TODO: abstract away to kernel
+    // TODO: support global keypress in kernel
+    const handle_keydown = useEffectEvent((e: KeyboardEvent) => {
+        if (e.repeat && e.key !== "Backspace") {
+            return;
+        }
+
+        if (e.key >= "0" && e.key <= "9") {
+            e.preventDefault();
+            input_number(e.key);
+        } else if (e.key === ".") {
+            e.preventDefault();
+            input_point();
+        } else if (e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") {
+            e.preventDefault();
+            input_operation(e.key as Operation);
+        } else if (e.key === "Enter" || e.key === "=") {
+            e.preventDefault();
+            calculate_result();
+        } else if (e.key === "Backspace") {
+            e.preventDefault();
+
+            // remove last character from screen value, or reset to 0 if only one character left
+            setScreenValue((prev) => {
+                if (prev.length === 1) {
+                    is_value_dirty.current = false;
+                    return "0";
+                } else {
+                    return prev.slice(0, -1);
+                }
+            });
+        } else if (e.key === "Escape") {
+            e.preventDefault();
+            all_clear();
+        } else if (e.key === "Delete") {
+            e.preventDefault();
+            clear_entry();
+        } else if (e.key === "%") {
+            e.preventDefault();
+            percent();
+        } else if (e.ctrlKey && (e.key === "m" || e.key === "M")) {
+            e.preventDefault();
+            mrc();
+        } else if (e.ctrlKey && (e.key === "p" || e.key === "P")) {
+            e.preventDefault();
+            m_plus();
+        } else if (e.key === "F9") {
+            e.preventDefault();
+            negate();
+        } else if (e.code === "Digit2" && e.shiftKey) {
+            // shift 2, which can be at or quotes depedning on region, so use scancode instead
+            e.preventDefault();
+            square_root();
+        }
+    });
+
+    useEffect(() => {
+        window.addEventListener("keydown", handle_keydown);
+
+        return () => {
+            window.removeEventListener("keydown", handle_keydown);
+        };
+    }, [handle_keydown]);
 
     return (
         <main className="bg-background flex flex-col items-center p-4 gap-6" style={{height: css_height}}>
