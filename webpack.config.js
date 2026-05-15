@@ -3,6 +3,8 @@
 
 const pkgbuild = require("ollieos_pkgbuild");
 
+// TODO: when library system added, dont bundle react and tw with every program seaprately if possible
+
 // EDIT THIS OBJECT TO ADD MORE PROGRAMS OR CHANGE THE FILE PATHS/NAMES
 // key: the name of the program
 // value: the path to the entry point
