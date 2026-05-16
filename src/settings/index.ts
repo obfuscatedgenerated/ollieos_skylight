@@ -7,7 +7,8 @@ export default {
     usage_suffix: "",
     arg_descriptions: {},
     gui: {
-        display_name: "Settings"
+        display_name: "Settings",
+        icon_path: "/usr/bin/skylight/icons/sl_settings.svg"
     },
     compat: "2.0.0",
     main: async (data) => {

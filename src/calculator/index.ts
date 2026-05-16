@@ -8,8 +8,8 @@ export default {
     usage_suffix: "",
     arg_descriptions: {},
     gui: {
-        display_name: "Calculator"
-        // TODO: export icon
+        display_name: "Calculator",
+        icon_path: "/usr/bin/skylight/icons/sl_calc.svg"
     },
     compat: "2.0.0",
     main: async (data) => {
