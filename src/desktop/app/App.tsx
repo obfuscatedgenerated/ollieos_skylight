@@ -15,6 +15,15 @@ export const App = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
         });
     }, []);
 
+    // when src changes, revoke the old object URL to prevent memory leaks
+    useEffect(() => {
+        return () => {
+            if (src) {
+                URL.revokeObjectURL(src);
+            }
+        }
+    }, [src]);
+
     useEffect(() => {
         load_desktop_image();
     }, [load_desktop_image]);
