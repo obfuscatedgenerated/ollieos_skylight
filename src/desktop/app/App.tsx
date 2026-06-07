@@ -4,12 +4,12 @@ import {useCallback, useEffect, useState} from "react";
 export const App = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
     const {kernel, process} = main_data;
 
-    // load desktop from ~/.skylight/desktop.png, falling back to blank with bg color if it doesn't exist
+    // load wallpaper from ~/.skylight/wallpaper (no file extension, supporting any <img> format), falling back to blank with bg color if it doesn't exist
     const [src, setSrc] = useState("");
     const load_desktop_image = useCallback(() => {
         const fs = kernel.get_fs();
-        fs.read_file(fs.absolute("~/.skylight/desktop.png"), true).then((data: Uint8Array<ArrayBuffer>) => {
-            const blob = new Blob([data], {type: "image/png"});
+        fs.read_file(fs.absolute("~/.skylight/wallpaper"), true).then((data: Uint8Array<ArrayBuffer>) => {
+            const blob = new Blob([data], {type: "application/octet-stream"});
             const url = URL.createObjectURL(blob);
             setSrc(url);
         });
