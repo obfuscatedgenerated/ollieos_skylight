@@ -12,7 +12,7 @@
   "devDependencies": {
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
-    "concurrently": "^9.2.1",
+    "concurrently": "^10.0.3",
     "css-loader": "^7.1.4",
     "ollieos": "github:obfuscatedgenerated/obfuscatedgenerated.github.io#types",
     "ollieos_pkgbuild": "github:obfuscatedgenerated/ollieos_pkgbuild",
