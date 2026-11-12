@@ -1,15 +1,16 @@
 import {useEffect, useMemo, useState} from "react";
-import {Globe, Plug} from "lucide-react";
+import {Globe, Loader2, Plug} from "lucide-react";
 
 import type {PrivilegedProgramMainData} from "ollieos/types";
 
 export const NetworkTrayIcon = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
     const [connected, setConnected] = useState(false);
+    const [connecting, setConnecting] = useState(false);
 
     const {process, kernel} = main_data;
     const network = useMemo(() => kernel.get_network_manager(), [kernel]);
 
-    // get initial state
+    // get initial state (doesn't connect, so never triggers the local network prompt)
     useEffect(() => {
         network.is_up().then(setConnected);
     }, [network]);
@@ -27,5 +28,29 @@ export const NetworkTrayIcon = ({main_data}: {main_data: PrivilegedProgramMainDa
         };
     }, [process]);
 
-    return connected ? <Globe className="text-emerald-500 w-6 h-6" aria-label="Online" /> : <Plug className="text-red-500 w-6 h-6" aria-label="Offline" />;
+    // explicit opt in: waiting lets the manager connect, and the prompt comes from this click
+    const connect = async () => {
+        if (connected || connecting) {
+            return;
+        }
+
+        setConnecting(true);
+        try {
+            setConnected(await network.is_up(true));
+        } finally {
+            setConnecting(false);
+        }
+    };
+
+    if (connected) {
+        return <Globe className="text-emerald-500 w-6 h-6" aria-label="Online" />;
+    }
+
+    return (
+        <button type="button" onClick={connect} title="Connect to porter" aria-label={connecting ? "Connecting" : "Offline, click to connect"}>
+            {connecting
+                ? <Loader2 className="text-amber-500 w-6 h-6 animate-spin" />
+                : <Plug className="text-red-500 w-6 h-6" />}
+        </button>
+    );
 }
