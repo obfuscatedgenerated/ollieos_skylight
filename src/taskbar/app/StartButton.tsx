@@ -1,24 +1,24 @@
-import type {PrivilegedProgramMainData} from "ollieos/types";
-import type {SpawnResult} from "ollieos/kernel";
+import type {ProgramMainData} from "ollieos/types";
+import type {SpawnResult, Kernel} from "ollieos/kernel";
 
 import {useCallback, useMemo, useRef} from "react";
 import {LayoutPanelLeft} from "lucide-react";
 
-export const StartButton = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
+export const StartButton = ({main_data}: {main_data: ProgramMainData<Kernel>}) => {
     const {kernel, process} = main_data;
 
     const proc_mgr = useMemo(() => kernel.get_process_manager(), [kernel]);
     const start_menu_process = useRef<SpawnResult | null>(null);
 
     const on_click = useCallback(
-        () => {
+        async () => {
             // TODO: once dead flag added to process, remove this bypass
             if (start_menu_process.current !== null && proc_mgr.list_pids().includes(start_menu_process.current.process.pid)) {
                 start_menu_process.current.process.kill(0);
                 start_menu_process.current = null;
             } else {
                 // invoke sl_startmenu with privilege
-                start_menu_process.current = kernel.spawn(process, "sl_startmenu", [], undefined, true);
+                start_menu_process.current = await kernel.spawn(process, "sl_startmenu", [], undefined, true);
             }
         },
         [kernel, process, proc_mgr]

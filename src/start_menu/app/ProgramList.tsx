@@ -1,31 +1,35 @@
-import type {ProgramGUIProps, PrivilegedProgramMainData} from "ollieos/types";
-import {Suspense, useCallback, useMemo} from "react";
+import type {ProgramMainData, ProgramGUIProps} from "ollieos/types";
+import type {Kernel} from "ollieos/kernel";
+
+import {Suspense, useCallback, useEffect, useMemo, useState} from "react";
 import {DefaultProgramIcon, ProgramIcon} from "./ProgramIcon";
 
-export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
+export const ProgramList = ({main_data}: {main_data: ProgramMainData<Kernel>}) => {
     const {kernel, process} = main_data;
 
-    const prog_reg = useMemo(() => kernel.get_program_registry(), [kernel]);
     const fs = useMemo(() => kernel.get_fs(), [kernel]);
 
-    const programs = useMemo(() =>
-        prog_reg.listProgramNames(true, true)
-            .map((prog_name) => {
-                const gui = prog_reg.getProgram(prog_name)?.gui;
-                if (!gui) {
-                    return null;
-                }
+    const [programs, setPrograms] = useState<{prog_name: string, gui: ProgramGUIProps}[]>([]);
+    useEffect(() => {
+        kernel.list_programs().then((progs) => {
+           setPrograms(
+               progs.map(({name, metadata}) => {
+                   const gui = metadata.gui;
+                   if (!gui) {
+                       return null;
+                   }
 
-                return {prog_name, gui};
-            })
-            .filter((x): x is {prog_name: string, gui: ProgramGUIProps} => x !== null)
-            .sort((a, b) => a.gui.display_name.localeCompare(b.gui.display_name)),
-        [prog_reg]
-    );
+                   return {prog_name: name, gui};
+               })
+                   .filter((x): x is { prog_name: string, gui: ProgramGUIProps } => x !== null)
+                   .sort((a, b) => a.gui.display_name.localeCompare(b.gui.display_name))
+           );
+        });
+    }, [kernel]);
 
-    const program_clicked = useCallback((prog_name: string, gui: ProgramGUIProps) => {
+    const program_clicked = useCallback(async (prog_name: string, gui: ProgramGUIProps) => {
         let command = prog_name;
-        let args = [];
+        let args: string[] = [];
         if (gui.start_with_args) {
             args = gui.start_with_args;
         }
@@ -39,7 +43,7 @@ export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData})
         }
 
         // start privileged if windowed terminal always (therefore also covers starting terminal normally from program list)
-        const spawn_result = kernel.spawn(process, command, args, undefined, command === "windowed_terminal");
+        const spawn_result = await kernel.spawn(process, command, args, undefined, command === "windowed_terminal");
         spawn_result.completion.then((code) => {
             if (spawn_result.process.is_detached) {
                 return;
@@ -50,7 +54,7 @@ export const ProgramList = ({main_data}: {main_data: PrivilegedProgramMainData})
 
         process.kill(0);
         // TODO: should this use a base gui shell provided by skylight instead? might be able to securely tell it to use privilege when opening here instead of passing privilege to the start menu itself
-    }, [prog_reg]);
+    }, []);
 
     return (
         <div className="flex-1 flex flex-col gap-1 pr-2 overflow-y-auto nice-scroll">

@@ -10,12 +10,12 @@ export default {
         display_name: "Settings",
         icon_path: "/usr/bin/skylight/icons/sl_settings.svg"
     },
-    compat: "2.0.0",
+    compat: "3.0.0",
     main: async (data) => {
         // extract from data to make code less verbose
         const { process } = data;
 
-        const wind = process.create_window();
+        const wind = await process.create_window();
 
         wind.x = "25vw";
         wind.y = "25vh";
@@ -35,4 +35,4 @@ export default {
         process.detach();
         return 0;
     }
-} as Program;
+} satisfies Program;

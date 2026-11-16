@@ -1,4 +1,4 @@
-import type {PrivilegedProgram, Program} from "ollieos/types";
+import type {Program} from "ollieos/types";
 
 import { render } from "./app";
 
@@ -8,7 +8,9 @@ export default {
     usage_suffix: "",
     arg_descriptions: {},
     hide_from_help: true,
-    compat: "2.0.0",
+    space: "kernel",
+    reason: "Should not be invoked. Please use sl_root to start skylight.",
+    compat: "3.0.0",
     main: async (data) => {
         // extract from data to make code less verbose
         const { process } = data;
@@ -40,4 +42,4 @@ export default {
         process.detach();
         return 0;
     }
-} as PrivilegedProgram;
+} satisfies Program;

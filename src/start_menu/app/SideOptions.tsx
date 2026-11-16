@@ -1,4 +1,5 @@
-import {PrivilegedProgramMainData} from "ollieos/types";
+import type {ProgramMainData} from "ollieos/types";
+import type {Kernel} from "ollieos/kernel";
 import {Power, RotateCcw, Settings} from "lucide-react";
 import {useCallback, useState} from "react";
 
@@ -10,12 +11,12 @@ const SideOption = ({Icon, label, on_click}: {Icon: React.ComponentType<{classNa
     );
 }
 
-export const SideOptions = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
+export const SideOptions = ({main_data}: {main_data: ProgramMainData<Kernel>}) => {
     const {kernel, process} = main_data;
 
     const exec_and_kill = useCallback(
         async (prog_name: string, args: string[] = [], privileged = false) => {
-            const spawn_result = kernel.spawn(process, prog_name, args, undefined, privileged);
+            const spawn_result = await kernel.spawn(process, prog_name, args, undefined, privileged);
             spawn_result.completion.then((code) => {
                 if (spawn_result.process.is_detached) {
                     return;

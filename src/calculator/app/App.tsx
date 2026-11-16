@@ -9,7 +9,7 @@ const NumberButton = ({num, on_click, double = false}: {num: string, on_click: (
     </button>
 );
 
-const OperationButton = ({op, on_click, stored_op}: {op: Operation, on_click: (op: Operation) => void, stored_op?: Operation}) => (
+const OperationButton = ({op, on_click, stored_op}: {op: Operation, on_click: (op: Operation) => void, stored_op?: Operation | null}) => (
     <button onClick={() => on_click(op)} className={`cursor-pointer bg-accent text-on-accent py-1 px-2 rounded text-lg font-mono ${stored_op === op ? "font-bold outline-solid outline-2 outline-primary" : ""}`}>
         {op === "*" ? "×" : op === "/" ? "÷" : op}
     </button>
@@ -274,7 +274,7 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
                 case "+":
                 case "-":
                     // for addition and subtraction, percentage is relative to the operand (tipping mode)
-                    result = operand_register.current * (current_value / 100);
+                    result = operand_register.current! * (current_value / 100);
                     break;
                 case "*":
                 case "/":

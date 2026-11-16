@@ -1,7 +1,8 @@
-import type {PrivilegedProgramMainData} from "ollieos/types";
+import type {ProgramMainData} from "ollieos/types";
+import type {Kernel} from "ollieos/kernel";
 import {useCallback, useEffect, useState} from "react";
 
-export const App = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
+export const App = ({main_data}: {main_data: ProgramMainData<Kernel>}) => {
     const {kernel, process} = main_data;
 
     // load wallpaper from ~/.skylight/wallpaper (no file extension, supporting any <img> format), falling back to blank with bg color if it doesn't exist

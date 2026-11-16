@@ -1,4 +1,5 @@
-import type {PrivilegedProgramMainData} from "ollieos/types";
+import type {ProgramMainData} from "ollieos/types";
+import type {Kernel} from "ollieos/kernel";
 
 import {StartButton} from "./StartButton";
 import {TrayIcons} from "./TrayIcons";
@@ -6,7 +7,7 @@ import {TrayIcons} from "./TrayIcons";
 import {NetworkTrayIcon} from "./NetworkTrayIcon";
 import {Clock} from "./Clock";
 
-export const App = ({main_data, css_height}: {main_data: PrivilegedProgramMainData, css_height: string}) => {
+export const App = ({main_data, css_height}: {main_data: ProgramMainData<Kernel>, css_height: string}) => {
     return (
         <main className="bg-background/80 backdrop-blur-xl text-foreground flex items-center font-sans" style={{height: css_height}}>
             <StartButton main_data={main_data} />

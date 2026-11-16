@@ -66,16 +66,16 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
     );
 
     const reload_wallpaper = useCallback(
-        () => {
+        async () => {
             const ipc = kernel.get_ipc();
-            const channel_id = ipc.create_channel("sl_desktop");
+            const channel_id = await ipc.create_channel("sl_desktop");
 
             if (!channel_id) {
                 show_error("Failed to create IPC channel. Is desktop service running?");
                 return;
             }
 
-            ipc.channel_send(channel_id, "reload");
+            await ipc.channel_send(channel_id, "reload");
         },
         [kernel]
     );

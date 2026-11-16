@@ -1,9 +1,10 @@
 import {useEffect, useMemo, useState} from "react";
 import {Globe, Loader2, Plug} from "lucide-react";
 
-import type {PrivilegedProgramMainData} from "ollieos/types";
+import type {ProgramMainData} from "ollieos/types";
+import type {Kernel} from "ollieos/kernel";
 
-export const NetworkTrayIcon = ({main_data}: {main_data: PrivilegedProgramMainData}) => {
+export const NetworkTrayIcon = ({main_data}: {main_data: ProgramMainData<Kernel>}) => {
     const [connected, setConnected] = useState(false);
     const [connecting, setConnecting] = useState(false);
 
@@ -12,7 +13,7 @@ export const NetworkTrayIcon = ({main_data}: {main_data: PrivilegedProgramMainDa
 
     // get initial state (doesn't connect, so never triggers the local network prompt)
     useEffect(() => {
-        network.is_up().then(setConnected);
+        network?.is_up().then(setConnected);
     }, [network]);
 
     // listen for network state changes
@@ -27,6 +28,10 @@ export const NetworkTrayIcon = ({main_data}: {main_data: PrivilegedProgramMainDa
             process.network_remove_manager_listener("state_change", change_listener);
         };
     }, [process]);
+
+    if (!network) {
+        return <></>;
+    }
 
     // explicit opt in: waiting lets the manager connect, and the prompt comes from this click
     const connect = async () => {

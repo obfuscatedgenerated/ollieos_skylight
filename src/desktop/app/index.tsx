@@ -4,9 +4,10 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 import { App } from "./App";
-import type {PrivilegedProgramMainData} from "ollieos/types";
+import type {ProgramMainData} from "ollieos/types";
+import type {Kernel} from "ollieos/kernel";
 
-export const render = (dom: ShadowRoot, main_data: PrivilegedProgramMainData) => {
+export const render = (dom: ShadowRoot, main_data: ProgramMainData<Kernel>) => {
     const react_root = document.createElement("div");
     dom.appendChild(react_root);
 
