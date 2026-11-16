@@ -11,6 +11,7 @@ export default {
         icon_path: "/usr/bin/skylight/icons/sl_settings.svg"
     },
     compat: "3.0.0",
+    needs_dom: true,
     main: async (data) => {
         // extract from data to make code less verbose
         const { process } = data;
