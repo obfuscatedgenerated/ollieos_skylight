@@ -26,7 +26,7 @@ export default {
 
         wind.title = "Settings";
 
-        render(wind.dom, wind.height, data);
+        render(wind.dom, data);
         wind.show();
 
         wind.add_event_listener("close", () => {

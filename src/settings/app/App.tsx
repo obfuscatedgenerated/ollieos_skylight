@@ -39,7 +39,7 @@ interface ErrorState {
 const ERROR_DISPLAY_DURATION = 5000;
 const ERROR_GARBAGE_COLLECT_DURATION = 6000;
 
-export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_height: string}) => {
+export const App = ({main_data}: {main_data: ProgramMainData}) => {
     const {kernel, process} = main_data;
 
     const [errors, setErrors] = useState<ErrorState[]>([]);
@@ -81,7 +81,7 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
     );
 
     return (
-        <main className="bg-background text-foreground flex flex-col p-2 font-sans gap-2" style={{height: css_height}}>
+        <main className="bg-background text-foreground flex flex-col p-2 font-sans gap-2 h-full">
             <h1 className="text-2xl font-bold">Settings</h1>
 
             <div className="flex flex-col gap-1 m-2">

@@ -2,7 +2,7 @@ import type {ProgramMainData} from "ollieos/types";
 import {useCallback, useEffect, useState} from "react";
 import {ArrowUp, File, Folder} from "lucide-react";
 
-export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_height: string}) => {
+export const App = ({main_data}: {main_data: ProgramMainData}) => {
     const {kernel, process} = main_data;
 
     const [input_path, setInputPath] = useState(process.cwd);
@@ -63,7 +63,7 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
     const [selected, setSelected] = useState<string | null>(null);
 
     return (
-        <main className="bg-background text-foreground flex flex-col font-sans gap-2" style={{height: css_height}}>
+        <main className="bg-background text-foreground flex flex-col font-sans gap-2 h-full">
             <div className="flex flex-row gap-2 p-2">
                 <button className="cursor-pointer" onClick={() => visit_subdir("..")} title="Up one directory">
                     <ArrowUp />
@@ -86,7 +86,7 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
                     <button
                         onClick={() => setSelected(dir)}
                         onDoubleClick={() => visit_subdir(dir)}
-                        className={`flex flex-col items-center justify-center gap-1 w-30 h-20 truncate p-2 ${selected === dir ? "bg-background-2/90" : "hover:bg-background-2/75"}`}
+                        className={`flex flex-col items-center justify-center gap-1 w-30 h-20 truncate p-2 ${selected === dir ? "bg-accent" : "hover:bg-accent/50"}`}
                         key={dir}
                         aria-selected={selected === dir}
                         title={dir}
@@ -99,7 +99,7 @@ export const App = ({main_data, css_height}: {main_data: ProgramMainData, css_he
                     <button
                         onClick={() => setSelected(file)}
                         // TODO: open file on double click (need associations)
-                        className={`flex flex-col items-center justify-center gap-1 w-30 h-20 p-2 ${selected === file ? "bg-background-2/90" : "hover:bg-background-2/75"}`}
+                        className={`flex flex-col items-center justify-center gap-1 w-30 h-20 p-2 ${selected === file ? "bg-accent" : "hover:bg-accent/50"}`}
                         key={file}
                         aria-selected={selected === file}
                         title={file}
