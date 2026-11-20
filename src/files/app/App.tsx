@@ -2,6 +2,7 @@ import type {ProgramMainData} from "ollieos/types";
 import {useCallback, useEffect, useState} from "react";
 import {ArrowUp, Folder} from "lucide-react";
 import {FileIcon} from "./FileIcon";
+import {LoadingSpinner} from "../../shared/components/LoadingSpinner";
 
 const EntryTile = ({path, directory = false, selected}: {path: string, directory?: boolean, selected: boolean}) => (
     <div
@@ -45,6 +46,10 @@ export const App = ({main_data}: {main_data: ProgramMainData}) => {
         [active_path, update_path]
     );
 
+    const [list_view, setListView] = useState(false);
+    const [hidden_files, setHiddenFiles] = useState(false);
+    // TODO: persist setting to ~/.skylight/settings/files.json etc
+
     const [dirs, setDirs] = useState<string[]>([]);
     const [files, setFiles] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
@@ -75,14 +80,16 @@ export const App = ({main_data}: {main_data: ProgramMainData}) => {
                 setFiles([]);
             }
 
+            if (!hidden_files) {
+                setDirs(dirs => dirs.filter(dir => !dir.startsWith(".")));
+                setFiles(files => files.filter(file => !file.startsWith(".")));
+            }
+
             setLoading(false);
         });
-    }, [active_path]);
+    }, [active_path, hidden_files, kernel]);
 
     const [selected, setSelected] = useState<string | null>(null);
-
-    const [list_view, setListView] = useState(false);
-    // TODO: persist setting to ~/.skylight/settings/files.json etc
 
     return (
         <main className="bg-background text-foreground flex flex-col font-sans gap-2 h-full">
@@ -108,10 +115,20 @@ export const App = ({main_data}: {main_data: ProgramMainData}) => {
                     <input type="checkbox" checked={list_view} onChange={(e) => setListView(e.target.checked)} />
                     List view
                 </label>
-            </div>
-            <div className={`p-2 m-2 flex gap-1 overflow-y-auto nice-scroll ${list_view ? "flex-col" : "flex-row flex-wrap"}`}>
-                {loading && <p>Loading...</p>}
 
+                <label className="text-nowrap flex flex-row items-center gap-2">
+                    <input type="checkbox" checked={hidden_files} onChange={(e) => setHiddenFiles(e.target.checked)} />
+                    Show hidden files
+                </label>
+            </div>
+
+            {loading && (
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                    <LoadingSpinner />
+                </div>
+            )}
+
+            <div className={`p-2 m-2 flex gap-1 overflow-y-auto nice-scroll ${list_view ? "flex-col" : "flex-row flex-wrap"}`}>
                 {dirs.map((dir) => (
                     <button
                         onClick={() => setSelected(dir)}
