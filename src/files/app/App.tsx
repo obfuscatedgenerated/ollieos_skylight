@@ -80,7 +80,7 @@ export const App = ({main_data}: {main_data: ProgramMainData}) => {
                     }}
                 />
             </div>
-            <div className="p-2 flex flex-wrap gap-1">
+            <div className="p-2 m-2 flex flex-wrap gap-1 overflow-y-auto nice-scroll">
                 {loading && <p>Loading...</p>}
 
                 {dirs.map((dir) => (
