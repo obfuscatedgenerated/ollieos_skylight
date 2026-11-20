@@ -1,7 +1,25 @@
 import type {ProgramMainData} from "ollieos/types";
 import {useCallback, useEffect, useState} from "react";
-import {ArrowUp, File, FileTerminal, Folder} from "lucide-react";
+import {ArrowUp, Folder} from "lucide-react";
 import {FileIcon} from "./FileIcon";
+
+const EntryTile = ({path, directory = false, selected}: {path: string, directory?: boolean, selected: boolean}) => (
+    <div
+        className={`flex flex-col items-center justify-center gap-1 w-30 h-20 truncate p-2 ${selected ? "bg-accent" : "hover:bg-accent/50"} select-none`}
+    >
+        {directory ? <Folder className="w-10 h-10" /> : <FileIcon file={path} className="w-10 h-10" />}
+        <span className="max-w-full truncate">{path}</span>
+    </div>
+);
+
+const EntryListLine = ({path, directory = false, selected}: {path: string, directory?: boolean, selected: boolean}) => (
+    <div
+        className={`flex flex-row items-center justify-start gap-2 p-2 ${selected ? "bg-accent" : "hover:bg-accent/50"} select-none`}
+    >
+        {directory ? <Folder className="w-5 h-5" /> : <FileIcon file={path} className="w-5 h-5" />}
+        <span className="max-w-full truncate">{path}</span>
+    </div>
+);
 
 export const App = ({main_data}: {main_data: ProgramMainData}) => {
     const {kernel, process} = main_data;
@@ -63,12 +81,16 @@ export const App = ({main_data}: {main_data: ProgramMainData}) => {
 
     const [selected, setSelected] = useState<string | null>(null);
 
+    const [list_view, setListView] = useState(false);
+    // TODO: persist setting to ~/.skylight/settings/files.json etc
+
     return (
         <main className="bg-background text-foreground flex flex-col font-sans gap-2 h-full">
-            <div className="flex flex-row gap-2 p-2">
+            <div className="flex flex-row gap-3 p-2">
                 <button className="cursor-pointer" onClick={() => visit_subdir("..")} title="Up one directory">
                     <ArrowUp />
                 </button>
+
                 <input
                     className="w-full bg-white text-black px-2 py-1"
                     value={input_path}
@@ -79,34 +101,45 @@ export const App = ({main_data}: {main_data: ProgramMainData}) => {
                         }
                     }}
                 />
+
+                <div className="h-full w-0.5 bg-accent mx-1" />
+
+                <label className="text-nowrap flex flex-row items-center gap-2">
+                    <input type="checkbox" checked={list_view} onChange={(e) => setListView(e.target.checked)} />
+                    List view
+                </label>
             </div>
-            <div className="p-2 m-2 flex flex-wrap gap-1 overflow-y-auto nice-scroll">
+            <div className={`p-2 m-2 flex gap-1 overflow-y-auto nice-scroll ${list_view ? "flex-col" : "flex-row flex-wrap"}`}>
                 {loading && <p>Loading...</p>}
 
                 {dirs.map((dir) => (
                     <button
                         onClick={() => setSelected(dir)}
                         onDoubleClick={() => visit_subdir(dir)}
-                        className={`flex flex-col items-center justify-center gap-1 w-30 h-20 truncate p-2 ${selected === dir ? "bg-accent" : "hover:bg-accent/50"}`}
                         key={dir}
                         aria-selected={selected === dir}
                         title={dir}
                     >
-                        <Folder className="w-10 h-10" />
-                        <span className="max-w-full truncate">{dir}</span>
+                        {list_view ? (
+                            <EntryListLine path={dir} directory selected={selected === dir} />
+                        ) : (
+                            <EntryTile path={dir} directory selected={selected === dir} />
+                        )}
                     </button>
                 ))}
                 {files.map((file) => (
                     <button
                         onClick={() => setSelected(file)}
                         // TODO: open file on double click (need associations)
-                        className={`flex flex-col items-center justify-center gap-1 w-30 h-20 p-2 ${selected === file ? "bg-accent" : "hover:bg-accent/50"}`}
                         key={file}
                         aria-selected={selected === file}
                         title={file}
                     >
-                        <FileIcon file={file} className="w-10 h-10" />
-                        <span className="max-w-full truncate">{file}</span>
+                        {list_view ? (
+                            <EntryListLine path={file} selected={selected === file} />
+                        ) : (
+                            <EntryTile path={file} selected={selected === file} />
+                        )}
                     </button>
                 ))}
             </div>
