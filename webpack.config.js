@@ -16,6 +16,7 @@ const programs = {
     "sl_desktop": "./src/desktop/index.ts",
     "sl_shutdown": "./src/shutdown/index.ts",
     "sl_calc": "./src/calculator/index.ts",
+    "sl_files": "./src/files/index.ts",
 };
 
 // EDIT THIS ARRAY TO ADD DEPENDENCIES FOR THE VERSION CURRENTLY BEING BUILT

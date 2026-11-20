@@ -17,11 +17,17 @@ export const DefaultProgramIcon = ({className = ""}: {className?: string}) => {
 export const ProgramIcon = ({fs, icon_path, className = "", alt = ""}: ProgramIconProps) => {
     // memoise the file content promise
     const icon_content_promise: Promise<null | Uint8Array> = useMemo(() => {
-        if (!icon_path || (!icon_path.endsWith(".svg") && !icon_path.endsWith(".png"))) {
-            return Promise.resolve(null);
-        }
+        return new Promise(async (resolve) => {
+            if (!icon_path || (!icon_path.endsWith(".svg") && !icon_path.endsWith(".png"))) {
+                return resolve(null);
+            }
 
-        return fs.read_file(icon_path, true) as Promise<Uint8Array>;
+            if (!(await fs.exists(icon_path))) {
+                return resolve(null);
+            }
+
+            return resolve(await fs.read_file(icon_path, true) as Uint8Array);
+        });
     }, [fs, icon_path]);
 
     const icon_content = use(icon_content_promise);
