@@ -25,7 +25,7 @@ export default {
         wind.y = "0";
 
         const width_rem = 0.25 * 70;
-        const height_rem = 0.25 * 90;
+        const height_rem = 0.25 * 97.5;
 
         wind.width = `${width_rem}rem`;
         wind.height = `${height_rem}rem`;
