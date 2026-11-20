@@ -1,6 +1,6 @@
 {
   "name": "skylight",
-  "version": "0.3.6-alpha",
+  "version": "0.4.0-alpha",
   "description": "Desktop environment for OllieOS",
   "scripts": {
     "build": "webpack --mode=production",

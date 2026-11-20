@@ -14,9 +14,13 @@ export default {
         // extract from data to make code less verbose
         const { kernel, process } = data;
 
+        // siblings ship beside this program, whether it's installed in /usr/bin or served by live-pkg
+        const own_dir = process.program_path.slice(0, process.program_path.lastIndexOf("/"));
+        const command = (cmd: string) => `${own_dir}/${cmd}`;
+
         // invoke children with privilege
         // TODO: should they all have it
-        const children = ["sl_desktop", "sl_taskbar"];
+        const children = [command("sl_desktop"), command("sl_taskbar")];
         for (const child of children) {
             const spawn_result = await kernel.spawn(process, child, [], undefined, true);
             process.add_exit_listener(() => {

@@ -18,7 +18,10 @@ export const StartButton = ({main_data}: {main_data: ProgramMainData<Kernel>}) =
                 start_menu_process.current = null;
             } else {
                 // invoke sl_startmenu with privilege
-                start_menu_process.current = await kernel.spawn(process, "sl_startmenu", [], undefined, true);
+                // siblings ship beside this program, whether it's installed in /usr/bin or served by live-pkg
+                const own_dir = process.program_path.slice(0, process.program_path.lastIndexOf("/"));
+                const command = (cmd: string) => `${own_dir}/${cmd}`;
+                start_menu_process.current = await kernel.spawn(process, command("sl_startmenu"), [], undefined, true);
             }
         },
         [kernel, process, proc_mgr]
