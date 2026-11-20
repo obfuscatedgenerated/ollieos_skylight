@@ -1,6 +1,7 @@
 import type {ProgramMainData} from "ollieos/types";
 import {useCallback, useEffect, useState} from "react";
-import {ArrowUp, File, Folder} from "lucide-react";
+import {ArrowUp, File, FileTerminal, Folder} from "lucide-react";
+import {FileIcon} from "./FileIcon";
 
 export const App = ({main_data}: {main_data: ProgramMainData}) => {
     const {kernel, process} = main_data;
@@ -104,7 +105,7 @@ export const App = ({main_data}: {main_data: ProgramMainData}) => {
                         aria-selected={selected === file}
                         title={file}
                     >
-                        <File className="w-10 h-10" />
+                        <FileIcon file={file} className="w-10 h-10" />
                         <span className="max-w-full truncate">{file}</span>
                     </button>
                 ))}
